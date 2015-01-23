@@ -9,7 +9,7 @@
             <TabItem Header="User Profiles">
                 <Grid>
                     <Button Content="Apply Changes" HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="118" Click="ApplyChanges" Margin="10,168,0,0"/>
-                    <Button Content="Factory Reset" HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="118" Margin="389,254,0,0"/>
+                    <Button Content="Factory Reset" Margin="0,0,7,16.5" HorizontalAlignment="Right" Width="118" Height="24" VerticalAlignment="Bottom"/>
                     <Label Content="Thumb"  HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top"/>
                     <Label Content="Index" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,63,0,0"/>
                     <Label Content="Middle" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,87,0,0"/>
