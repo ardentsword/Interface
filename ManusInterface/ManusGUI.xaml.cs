@@ -25,19 +25,12 @@ namespace ManusInterface
     /// </summary>
     public partial class ManusGUI : Window
     {
-        private String selectedComName="";
-        private String selectedDroneComName = "";
         private TextBox selectedKeybindBox;
         private bool mouseListenActive;
-        
-        //TODO: set to false after debugging
-        private bool droneMode = true;
 
         public ManusGUI()
         {
-            InitializeComponent();
-            comNames.ItemsSource = SerialPort.GetPortNames();
-            comNamesDrone.ItemsSource = SerialPort.GetPortNames();            
+            InitializeComponent();          
         }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -55,34 +48,6 @@ namespace ManusInterface
             slider3Value.Text = slider3.Value.ToString();
         }
 
-        private void connectDevice(object sender, RoutedEventArgs e)
-        {
-            CreateDeviceConnection.SetComPort(selectedComName);           
-            //first check if the Docking station is correctly connected
-            /*
-            if (CreateDeviceConnection.SetComPort())
-            {
-                portNumberTxt.Text = CreateDeviceConnection.getPortName();
-                //then check if the left and right glove are responding
-                if (CreateDeviceConnection.checkDevices())
-                {
-                    leftGloveDetected.Fill = new SolidColorBrush(System.Windows.Media.Colors.Green);
-                    rightGloveDetected.Fill = new SolidColorBrush(System.Windows.Media.Colors.Green);
-                }
-            }
-            else
-            {
-                Debug.WriteLine("No connected COM device detected please check connection");
-                
-            }
-             * */
-        }
-
-        private void connectDroneDevice(object sender, RoutedEventArgs e)
-        {
-            CreateDeviceConnection.SetDroneComPort(selectedDroneComName);
-        }
-
         private void ApplyChanges(object sender, RoutedEventArgs e)
         {
             List<String> keyBindings = new List<String>();
@@ -92,78 +57,54 @@ namespace ManusInterface
             keyBindings.Add("0");
             keyBindings.Add(converKeyToHex(lThumb.Text));
 
-            keyBindings.Add(builder.ToString());
-
-            foreach (String keyBind in keyBindings)
-            {
-                CreateDeviceConnection.sendMessage(keyBind, CreateDeviceConnection.selectedGlovePort);
-            }            
+            keyBindings.Add(builder.ToString());      
         }
 
-        
         private string converKeyToHex(string sendKey)
         {
             return "";
-        }
-
-        private void comNames_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            selectedComName = comNames.SelectedValue.ToString();
-        }
-        private void comNamesDrone_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            selectedDroneComName = comNamesDrone.SelectedValue.ToString();
         }
 
 
         void DataWindow_Closing(object sender, CancelEventArgs e)
         {
             Debug.Write("Closing called");
-            CreateDeviceConnection.terminateConnection();
         }
 
-        private void EnableDroneMode(object sender, RoutedEventArgs e)
+        void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            droneMode = true;
-            CreateDeviceConnection.SetDroneComPort(selectedDroneComName);
-            CreateDeviceConnection.SetComPort(selectedComName);  
+            //How so access my currently selected tab???
         }
 
+        private void profileInputSelected(object sender, RoutedEventArgs e)
+        {
+            //reset the current to white
+            if (selectedKeybindBox != null)
+            selectedKeybindBox.Background = Brushes.White;
 
-          void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-          {
-              //How so access my currently selected tab???
-          }
+            TextBox previousSelectedKeybindBox=selectedKeybindBox;
 
-          private void profileInputSelected(object sender, RoutedEventArgs e)
-          {
-              //reset the current to white
-              if (selectedKeybindBox != null)
-              selectedKeybindBox.Background = Brushes.White;
+            selectedKeybindBox = (TextBox)sender;
+            selectedKeybindBox.Background = Brushes.LightGray;
 
-              TextBox previousSelectedKeybindBox=selectedKeybindBox;
+            //if user switched input field
+            if (previousSelectedKeybindBox != null &&! previousSelectedKeybindBox.Equals(selectedKeybindBox))
+                mouseListenActive = false;
+        }
 
-              selectedKeybindBox = (TextBox)sender;
-              selectedKeybindBox.Background = Brushes.LightGray;
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (selectedKeybindBox !=null)
+            selectedKeybindBox.Text=e.Key.ToString();
+            mouseListenActive = false;
+        }
 
-              //if user switched input field
-              if (previousSelectedKeybindBox != null &&! previousSelectedKeybindBox.Equals(selectedKeybindBox))
-                  mouseListenActive = false;
-          }
+        private void OnMouseDownHandler(object sender, MouseButtonEventArgs e)
+        {
+            if (selectedKeybindBox != null && mouseListenActive)
+                selectedKeybindBox.Text = e.ChangedButton.ToString();
 
-          private void OnKeyDownHandler(object sender, KeyEventArgs e)
-          {
-             if (selectedKeybindBox !=null)
-              selectedKeybindBox.Text=e.Key.ToString();
-             mouseListenActive = false;
-          }
-
-          private void OnMouseDownHandler(object sender, MouseButtonEventArgs e)
-          {
-              if (selectedKeybindBox != null && mouseListenActive)
-                  selectedKeybindBox.Text = e.ChangedButton.ToString();
-
-              mouseListenActive = true;
-          }
-     }
+            mouseListenActive = true;
+        }
+    }
 }
