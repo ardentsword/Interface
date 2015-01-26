@@ -81,6 +81,7 @@
     <Compile Include="InputType.cs" />
     <Compile Include="KeyBindNotFoundException.cs" />
     <Compile Include="Keyboard.cs" />
+    <Compile Include="Manus.cs" />
     <Compile Include="Mouse.cs" />
     <Compile Include="StaticKeys.cs" />
     <Compile Include="ManusGUI.xaml.cs">
