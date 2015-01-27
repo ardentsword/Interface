@@ -10,8 +10,8 @@ namespace ManusInterface
 {
     class Mouse
     {
-        [DllImport("User32.dll", EntryPoint = "SendInput", SetLastError = true)]
-        private static extern int SendMouseInput(int nInputs, MOUSEINPUT[] pInputs, int cbSize);
+        [DllImport("User32.dll")]
+        private static extern int SendInput(int nInputs, MOUSEINPUT[] pInputs, int cbSize);
 
         const uint MOUSEEVENTF_ABSOLUTE = 0x8000;
         const uint MOUSEEVENTF_HWHEEL = 0x1000;
@@ -34,7 +34,7 @@ namespace ManusInterface
 #pragma warning disable 0649 // Disable 'field never assigned' warning
         struct MOUSEINPUT
         {
-            public const INPUT_TYPE type = INPUT_TYPE.MOUSE;
+            public INPUT_TYPE type;
             public int dx;
             public int dy;
             public int mouseData;
@@ -79,37 +79,42 @@ namespace ManusInterface
         public static void click(MouseButton b)
         {
             MOUSEINPUT[] input = new MOUSEINPUT[2];
+            input[0].type = INPUT_TYPE.MOUSE;
             input[0].mouseData = ButtonToData(b);
             input[0].flags = ButtonToFlag(b, MouseButtonState.Pressed);
+            input[1].type = INPUT_TYPE.MOUSE;
             input[1].mouseData = ButtonToData(b);
             input[1].flags = ButtonToFlag(b, MouseButtonState.Released);
-            SendMouseInput(2, input, Marshal.SizeOf(input));
+            SendInput(2, input, 2 * Marshal.SizeOf(typeof(MOUSEINPUT)));
         }
 
-        public static void move(int x, int y, int wheel)
+        public static void move(int x, int y, int wheel = 0)
         {
             MOUSEINPUT[] input = new MOUSEINPUT[1];
+            input[0].type = INPUT_TYPE.MOUSE;
             input[0].dx = x;
             input[0].dy = y;
             input[0].flags = MOUSEEVENTF_MOVE | MOUSEEVENTF_WHEEL;
             input[0].mouseData = wheel;
-            SendMouseInput(1, input, Marshal.SizeOf(input));
+            SendInput(1, input, Marshal.SizeOf(typeof(MOUSEINPUT)));
         }
 
         public static void press(MouseButton b)
         {
             MOUSEINPUT[] input = new MOUSEINPUT[1];
+            input[0].type = INPUT_TYPE.MOUSE;
             input[0].mouseData = ButtonToData(b);
             input[0].flags = ButtonToFlag(b, MouseButtonState.Pressed);
-            SendMouseInput(1, input, Marshal.SizeOf(input));
+            SendInput(1, input, Marshal.SizeOf(typeof(MOUSEINPUT)));
         }
 
         public static void release(MouseButton b)
         {
             MOUSEINPUT[] input = new MOUSEINPUT[1];
+            input[0].type = INPUT_TYPE.MOUSE;
             input[0].mouseData = ButtonToData(b);
             input[0].flags = ButtonToFlag(b, MouseButtonState.Released);
-            SendMouseInput(1, input, Marshal.SizeOf(input));
+            SendInput(1, input, Marshal.SizeOf(typeof(MOUSEINPUT)));
         }
 
         public static bool isPressed(MouseButton b)

@@ -10,13 +10,13 @@ namespace ManusInterface
 {
     class Keyboard
     {
-        [DllImport("User32.dll", EntryPoint = "SendInput", SetLastError = true)]
-        private static extern int SendKeyboardInput(int nInputs, KEYBDINPUT[] pInputs, int cbSize);
+        [DllImport("User32.dll")]
+        private static extern int SendInput(int nInputs, KEYBDINPUT[] pInputs, int cbSize);
 
 #pragma warning disable 0649 // Disable 'field never assigned' warning
         struct KEYBDINPUT
         {
-            public const INPUT_TYPE type = INPUT_TYPE.KEYBOARD;
+            public INPUT_TYPE type;
             public ushort wVk;
             public ushort wScan;
             public uint dwFlags;
@@ -33,25 +33,29 @@ namespace ManusInterface
         public static void press(Key k)
         {
             KEYBDINPUT[] input = new KEYBDINPUT[1];
+            input[0].type = INPUT_TYPE.KEYBOARD;
             input[0].wVk = (ushort)KeyInterop.VirtualKeyFromKey(k);
-            SendKeyboardInput(1, input, Marshal.SizeOf(input));
+            SendInput(1, input, Marshal.SizeOf(typeof(KEYBDINPUT)));
         }
 
         public static void release(Key k)
         {
             KEYBDINPUT[] input = new KEYBDINPUT[1];
+            input[0].type = INPUT_TYPE.KEYBOARD;
             input[0].wVk = (ushort)KeyInterop.VirtualKeyFromKey(k);
             input[0].dwFlags = KEYEVENTF_KEYUP;
-            SendKeyboardInput(1, input, Marshal.SizeOf(input));
+            SendInput(1, input, Marshal.SizeOf(typeof(KEYBDINPUT)));
         }
 
         public static void write(Key c)
         {
             KEYBDINPUT[] input = new KEYBDINPUT[2];
+            input[0].type = INPUT_TYPE.KEYBOARD;
             input[0].wVk = (ushort)KeyInterop.VirtualKeyFromKey(c);
+            input[1].type = INPUT_TYPE.KEYBOARD;
             input[1].wVk = (ushort)KeyInterop.VirtualKeyFromKey(c);
             input[1].dwFlags = KEYEVENTF_KEYUP;
-            SendKeyboardInput(2, input, Marshal.SizeOf(input));
+            SendInput(2, input, Marshal.SizeOf(typeof(KEYBDINPUT)));
         }
     }
 }
