@@ -12,6 +12,8 @@ namespace ManusInterface
     {
         [DllImport("User32.dll")]
         private static extern uint SendInput(uint nInputs, KEYBDINPUT[] pInputs, int cbSize);
+        [DllImport("User32.dll")]
+        private static extern uint MapVirtualKey(uint uCode, uint uMapType);
 
 #pragma warning disable 0649 // Disable 'field never assigned' warning
         [StructLayout(LayoutKind.Sequential)]
@@ -31,11 +33,22 @@ namespace ManusInterface
         const uint KEYEVENTF_SCANCODE = 0x0008;
         const uint KEYEVENTF_UNICODE = 0x0004;
 
+        const uint MAPVK_VK_TO_CHAR = 2;
+        const uint MAPVK_VK_TO_VSC = 0;
+        const uint MAPVK_VSC_TO_VK = 1;
+        const uint MAPVK_VSC_TO_VK_EX = 3;
+
+        private static uint ScanCodeFromKey(Key k)
+        {
+            return MapVirtualKey((uint)KeyInterop.VirtualKeyFromKey(k), MAPVK_VK_TO_VSC);
+        }
+
         public static void press(Key k)
         {
             KEYBDINPUT[] input = new KEYBDINPUT[1];
             input[0].type = INPUT_TYPE.KEYBOARD;
-            input[0].wVk = (ushort)KeyInterop.VirtualKeyFromKey(k);
+            input[0].wScan = (ushort)ScanCodeFromKey(k);
+            input[0].dwFlags = KEYEVENTF_SCANCODE;
             SendInput(1, input, Marshal.SizeOf(typeof(KEYBDINPUT)));
         }
 
@@ -43,8 +56,8 @@ namespace ManusInterface
         {
             KEYBDINPUT[] input = new KEYBDINPUT[1];
             input[0].type = INPUT_TYPE.KEYBOARD;
-            input[0].wVk = (ushort)KeyInterop.VirtualKeyFromKey(k);
-            input[0].dwFlags = KEYEVENTF_KEYUP;
+            input[0].wScan = (ushort)ScanCodeFromKey(k);
+            input[0].dwFlags = KEYEVENTF_KEYUP | KEYEVENTF_SCANCODE;
             SendInput(1, input, Marshal.SizeOf(typeof(KEYBDINPUT)));
         }
 
@@ -52,11 +65,12 @@ namespace ManusInterface
         {
             KEYBDINPUT[] input = new KEYBDINPUT[2];
             input[0].type = INPUT_TYPE.KEYBOARD;
-            input[0].wVk = (ushort)KeyInterop.VirtualKeyFromKey(c);
+            input[0].wScan = (ushort)ScanCodeFromKey(c);
+            input[0].dwFlags = KEYEVENTF_SCANCODE;
             input[1].type = INPUT_TYPE.KEYBOARD;
-            input[1].wVk = (ushort)KeyInterop.VirtualKeyFromKey(c);
-            input[1].dwFlags = KEYEVENTF_KEYUP;
-            SendInput(2, input, Marshal.SizeOf(typeof(KEYBDINPUT)));
+            input[1].wScan = (ushort)ScanCodeFromKey(c);
+            input[1].dwFlags = KEYEVENTF_KEYUP | KEYEVENTF_SCANCODE;
+            SendInput(2, input, 2 * Marshal.SizeOf(typeof(KEYBDINPUT)));
         }
     }
 }
