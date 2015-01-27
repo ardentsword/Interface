@@ -97,7 +97,7 @@ namespace ManusMachina
         *  Must be called before any other function
         *  in the SDK.
         */
-        [DllImport("Manus.dll")]
+        [DllImport("Manus.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ManusInit();
 
         /*! \brief Shutdown the Manus SDK.
@@ -105,7 +105,7 @@ namespace ManusMachina
         *  Must be called when the SDK is no longer
         *  needed.
         */
-        [DllImport("Manus.dll")]
+        [DllImport("Manus.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ManusExit();
 
         /*! \brief Get the number of gloves.
@@ -113,7 +113,7 @@ namespace ManusMachina
         *  Get the maximum index that can be queried
         *  for the glove state.
         */
-        [DllImport("Manus.dll")]
+        [DllImport("Manus.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ManusGetGloveCount();
 
         /*! \brief Get the state of a glove.
@@ -122,7 +122,7 @@ namespace ManusMachina
         *  \param state Output variable to receive the state.
         *  \param blocking Wait until the glove returns a value.
         */
-        [DllImport("Manus.dll")]
+        [DllImport("Manus.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ManusGetState(uint glove, out GLOVE_STATE state, bool blocking = false);
 
         /*! \brief Convert a Quaternion to Euler angles.
@@ -132,7 +132,7 @@ namespace ManusMachina
         *  \param euler Output variable to receive the Euler angles.
         *  \param quaternion The quaternion to convert.
         */
-        [DllImport("Manus.dll")]
+        [DllImport("Manus.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ManusQuaternionToEuler(out GLOVE_EULER euler, ref GLOVE_QUATERNION quaternion);
 
         /*! \brief Enable gamepad emulation.
@@ -140,7 +140,7 @@ namespace ManusMachina
         *  Allows the SDK to convert glove data to gamepad
         *  input.
         */
-        [DllImport("Manus.dll")]
+        [DllImport("Manus.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ManusEnableGamepad(bool enabled);
 
         /*! \brief Enable mouse emulation.
@@ -148,7 +148,7 @@ namespace ManusMachina
         *  Allows the SDK to convert glove data to mouse
         *  input.
         */
-        [DllImport("Manus.dll")]
+        [DllImport("Manus.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ManusEnableKeyboard(bool enabled);
 
         /*! \brief Enable keyboard emulation.
@@ -156,7 +156,7 @@ namespace ManusMachina
         *  Allows the SDK to convert glove data to keyboard
         *  input.
         */
-        [DllImport("Manus.dll")]
+        [DllImport("Manus.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ManusEnableMouse(bool enabled);
     }
 }
