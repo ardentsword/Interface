@@ -27,10 +27,12 @@ namespace ManusInterface
     {
         private TextBox selectedKeybindBox;
         private bool mouseListenActive;
+        private GloveInputSimulator simulator;
 
         public ManusGUI()
         {
-            InitializeComponent();          
+            simulator = new GloveInputSimulator();
+            InitializeComponent();
         }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

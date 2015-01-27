@@ -51,6 +51,11 @@ namespace ManusMachina
             this.z = z;
         }
 
+        public GLOVE_EULER ToDegrees()
+        {
+            return new GLOVE_EULER((float)(x * 180.0 / Math.PI), (float)(y * 180.0 / Math.PI), (float)(z * 180.0 / Math.PI));
+        }
+
         public static GLOVE_EULER operator +(GLOVE_EULER a, GLOVE_EULER b)
         {
             return new GLOVE_EULER(a.x + b.x, a.y + b.y, a.z + b.z);
