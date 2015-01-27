@@ -32,6 +32,7 @@ namespace ManusInterface
         const int XBUTTON2 = 2;
 
 #pragma warning disable 0649 // Disable 'field never assigned' warning
+        [StructLayout(LayoutKind.Sequential)]
         struct MOUSEINPUT
         {
             public INPUT_TYPE type;

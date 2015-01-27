@@ -14,6 +14,7 @@ namespace ManusInterface
         private static extern int SendInput(int nInputs, KEYBDINPUT[] pInputs, int cbSize);
 
 #pragma warning disable 0649 // Disable 'field never assigned' warning
+        [StructLayout(LayoutKind.Sequential)]
         struct KEYBDINPUT
         {
             public INPUT_TYPE type;

@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 namespace ManusMachina
 {
 #pragma warning disable 0649 // Disable 'field never assigned' warning
+    [StructLayout(LayoutKind.Sequential)]
     struct GLOVE_QUATERNION
     {
         public float w, x, y, z;
@@ -38,6 +39,7 @@ namespace ManusMachina
         }
     }
 
+    [StructLayout(LayoutKind.Sequential)]
     struct GLOVE_EULER
     {
         public float x, y, z;
@@ -67,6 +69,7 @@ namespace ManusMachina
         }
     }
 
+    [StructLayout(LayoutKind.Sequential)]
     struct GLOVE_DATA
     {
         public bool RightHand;
@@ -77,6 +80,7 @@ namespace ManusMachina
         public float[] Fingers;
     }
 
+    [StructLayout(LayoutKind.Sequential)]
     struct GLOVE_STATE
     {
         public uint PacketNumber;
