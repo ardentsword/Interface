@@ -11,11 +11,60 @@ namespace ManusMachina
     struct GLOVE_QUATERNION
     {
         public float w, x, y, z;
+
+        public GLOVE_QUATERNION(float w, float x, float y, float z)
+        {
+            this.w = w;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+
+        public static GLOVE_QUATERNION operator +(GLOVE_QUATERNION a, GLOVE_QUATERNION b)
+        {
+            return new GLOVE_QUATERNION(a.w + b.w, a.x + b.x, a.y + b.y, a.z + b.z);
+        }
+        public static GLOVE_QUATERNION operator -(GLOVE_QUATERNION a, GLOVE_QUATERNION b)
+        {
+            return new GLOVE_QUATERNION(a.w - b.w, a.x - b.x, a.y - b.y, a.z - b.z);
+        }
+        public static GLOVE_QUATERNION operator *(GLOVE_QUATERNION a, GLOVE_QUATERNION b)
+        {
+            return new GLOVE_QUATERNION(a.w * b.w, a.x * b.x, a.y * b.y, a.z * b.z);
+        }
+        public static GLOVE_QUATERNION operator /(GLOVE_QUATERNION a, GLOVE_QUATERNION b)
+        {
+            return new GLOVE_QUATERNION(a.w / b.w, a.x / b.x, a.y / b.y, a.z / b.z);
+        }
     }
 
     struct GLOVE_EULER
     {
         public float x, y, z;
+
+        public GLOVE_EULER(float x, float y, float z)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+
+        public static GLOVE_EULER operator +(GLOVE_EULER a, GLOVE_EULER b)
+        {
+            return new GLOVE_EULER(a.x + b.x, a.y + b.y, a.z + b.z);
+        }
+        public static GLOVE_EULER operator -(GLOVE_EULER a, GLOVE_EULER b)
+        {
+            return new GLOVE_EULER(a.x - b.x, a.y - b.y, a.z - b.z);
+        }
+        public static GLOVE_EULER operator *(GLOVE_EULER a, GLOVE_EULER b)
+        {
+            return new GLOVE_EULER(a.x * b.x, a.y * b.y, a.z * b.z);
+        }
+        public static GLOVE_EULER operator /(GLOVE_EULER a, GLOVE_EULER b)
+        {
+            return new GLOVE_EULER(a.x / b.x, a.y / b.y, a.z / b.z);
+        }
     }
 
     struct GLOVE_DATA
