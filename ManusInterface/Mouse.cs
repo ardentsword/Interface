@@ -11,7 +11,7 @@ namespace ManusInterface
     class Mouse
     {
         [DllImport("User32.dll")]
-        private static extern int SendInput(int nInputs, MOUSEINPUT[] pInputs, int cbSize);
+        private static extern uint SendInput(uint nInputs, MOUSEINPUT[] pInputs, int cbSize);
 
         const uint MOUSEEVENTF_ABSOLUTE = 0x8000;
         const uint MOUSEEVENTF_HWHEEL = 0x1000;

@@ -11,7 +11,7 @@ namespace ManusInterface
     class Keyboard
     {
         [DllImport("User32.dll")]
-        private static extern int SendInput(int nInputs, KEYBDINPUT[] pInputs, int cbSize);
+        private static extern uint SendInput(uint nInputs, KEYBDINPUT[] pInputs, int cbSize);
 
 #pragma warning disable 0649 // Disable 'field never assigned' warning
         [StructLayout(LayoutKind.Sequential)]
