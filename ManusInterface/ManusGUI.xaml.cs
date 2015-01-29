@@ -27,11 +27,13 @@ namespace ManusInterface
     {
         private TextBox selectedKeybindBox;
         private bool mouseListenActive;
-        private GloveInputSimulator simulator;
+        private GloveInputSimulator[] simulators;
 
         public ManusGUI()
         {
-            simulator = new GloveInputSimulator();
+            simulators = new GloveInputSimulator[2];
+            simulators[0] = new GloveInputSimulator(0);
+            simulators[1] = new GloveInputSimulator(1);
             InitializeComponent();
         }
 
