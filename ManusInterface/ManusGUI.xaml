@@ -53,25 +53,25 @@
                     <Label Content="Yaw" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="322,38,0,0" RenderTransformOrigin="0.5,0.5"/>
                     <Label Content="Pitch" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="323,64,0,0"/>
                     <Label Content="Roll" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="323,91,0,0"/>
-                    <Slider x:Name="mouseSensitivityYaw" HorizontalAlignment="Left" VerticalAlignment="Top" Width="235" ValueChanged="mouseSensitivityYaw_ValueChanged" Margin="10,41,0,0" Maximum="30" IsSnapToTickEnabled="True"/>
-                    <Slider x:Name="mouseSensitivityPitch" HorizontalAlignment="Left" VerticalAlignment="Top" Width="235" ValueChanged="mouseSensitivityPitch_ValueChanged" Margin="10,68,0,0" IsSnapToTickEnabled="True"/>
-                    <Slider x:Name="mouseSensitivityRoll" HorizontalAlignment="Left" VerticalAlignment="Top" Width="235" ValueChanged="mouseSensitivityRoll_ValueChanged" Margin="10,95,0,0" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="mouseSensitivityYaw" HorizontalAlignment="Left" VerticalAlignment="Top" Width="235" ValueChanged="mouseSensitivity_ValueChanged" Margin="10,41,0,0" Maximum="30" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="mouseSensitivityPitch" HorizontalAlignment="Left" VerticalAlignment="Top" Width="235" ValueChanged="mouseSensitivity_ValueChanged" Margin="10,68,0,0" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="mouseSensitivityRoll" HorizontalAlignment="Left" VerticalAlignment="Top" Width="235" ValueChanged="mouseSensitivity_ValueChanged" Margin="10,95,0,0" IsSnapToTickEnabled="True"/>
                     <TextBox x:Name="mouseSensitivityYawTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="252,38,0,0"/>
                     <TextBox x:Name="mouseSensitivityPitchTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="252,67,0,0"/>
                     <TextBox x:Name="mouseSensitivityRollTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="252,94,0,0"/>
 
-                    <Slider x:Name="deadZoneLeftYaw" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneLeftYaw_ValueChanged" Margin="9,172,0,0" IsSnapToTickEnabled="True"/>
-                    <Slider x:Name="deadZoneLeftPitch" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneLeftPitch_ValueChanged" Margin="9,199,0,0" IsSnapToTickEnabled="True"/>
-                    <Slider x:Name="deadZoneLeftRoll" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneLeftRoll_ValueChanged" Margin="9,226,0,0" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="deadZoneLeftYaw" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneLeft_ValueChanged" Margin="9,172,0,0" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="deadZoneLeftPitch" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneLeft_ValueChanged" Margin="9,199,0,0" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="deadZoneLeftRoll" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneLeft_ValueChanged" Margin="9,226,0,0" IsSnapToTickEnabled="True"/>
                     <TextBox x:Name="deadZoneLeftYawTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="150,171,0,0"/>
                     <TextBox x:Name="deadZoneLeftPitchTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="150,199,0,0"/>
                     <TextBox x:Name="deadZoneLeftRollTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="150,227,0,0"/>
                     <Label Content="Yaw" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="214,169,0,0" RenderTransformOrigin="0.5,0.5"/>
                     <Label Content="Pitch" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,195,0,0"/>
                     <Label Content="Roll" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,222,0,0"/>
-                    <Slider x:Name="deadZoneRightYaw" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneRightYaw_ValueChanged" Margin="261,172,0,0" IsSnapToTickEnabled="True"/>
-                    <Slider x:Name="deadZoneRightPitch" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneRightPitch_ValueChanged" Margin="261,199,0,0" IsSnapToTickEnabled="True"/>
-                    <Slider x:Name="deadZoneRightRoll" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneRightRoll_ValueChanged" Margin="261,226,0,0" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="deadZoneRightYaw" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneRight_ValueChanged" Margin="261,172,0,0" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="deadZoneRightPitch" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneRight_ValueChanged" Margin="261,199,0,0" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="deadZoneRightRoll" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneRight_ValueChanged" Margin="261,226,0,0" IsSnapToTickEnabled="True"/>
                     <TextBox x:Name="deadZoneRightYawTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="402,171,0,0"/>
                     <TextBox x:Name="deadZoneRightPitchTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="402,199,0,0"/>
                     <TextBox x:Name="deadZoneRightRollTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="402,227,0,0"/>
