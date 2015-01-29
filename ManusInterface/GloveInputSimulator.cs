@@ -21,16 +21,22 @@ namespace ManusInterface
         private uint gloveIndex;
         private double[] mouseRemainder;
 
+        private bool running;
+
         public GloveInputSimulator(uint index)
         {
-            Manus.ManusInit();
-
             this.gloveIndex = index;
             mouseRemainder = new double[2];
+            running = true;
 
             simulationThread = new Thread(new ThreadStart(Simulate));
             simulationThread.SetApartmentState(ApartmentState.STA);
             simulationThread.Start();
+        }
+
+        public void Stop()
+        {
+            running = false;
         }
 
         void Simulate()
@@ -38,11 +44,17 @@ namespace ManusInterface
             GLOVE_STATE state;
             GLOVE_EULER center, lastOffset;
 
-            while (Manus.ManusGetState(gloveIndex, out state, true) != Manus.SUCCESS) ;
+            while (Manus.ManusGetState(gloveIndex, out state, true) != Manus.SUCCESS)
+            {
+                if (!running)
+                    return;
+                Thread.Sleep(100);
+            }
+
             Manus.ManusQuaternionToEuler(out center, ref state.data.Quaternion);
             lastOffset = center;
 
-            while (true)
+            while (running)
             {
                 if (Manus.ManusGetState(gloveIndex, out state, true) != Manus.SUCCESS)
                     continue;

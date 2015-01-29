@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using System.IO;
 using System.Diagnostics;
 using System.ComponentModel;
+using ManusMachina;
 
 namespace ManusInterface
 {
@@ -31,6 +32,7 @@ namespace ManusInterface
 
         public ManusGUI()
         {
+            Manus.ManusInit();
             simulators = new GloveInputSimulator[2];
             simulators[0] = new GloveInputSimulator(0);
             simulators[1] = new GloveInputSimulator(1);
@@ -72,7 +74,10 @@ namespace ManusInterface
 
         void DataWindow_Closing(object sender, CancelEventArgs e)
         {
-            Debug.Write("Closing called");
+            // Cleanup
+            simulators[0].Stop();
+            simulators[1].Stop();
+            Manus.ManusExit();
         }
 
         void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
