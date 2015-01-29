@@ -29,6 +29,7 @@ namespace ManusInterface
             mouseRemainder = new double[2];
 
             simulationThread = new Thread(new ThreadStart(Simulate));
+            simulationThread.SetApartmentState(ApartmentState.STA);
             simulationThread.Start();
         }
 

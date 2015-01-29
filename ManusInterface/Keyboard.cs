@@ -47,6 +47,9 @@ namespace ManusInterface
 
         public static void press(Key k)
         {
+            if (System.Windows.Input.Keyboard.IsKeyDown(k))
+                return;
+
             KEYBDINPUT[] input = new KEYBDINPUT[1];
             input[0].type = INPUT_TYPE.KEYBOARD;
             input[0].scanCode = (ushort)ScanCodeFromKey(k);
@@ -56,6 +59,9 @@ namespace ManusInterface
 
         public static void release(Key k)
         {
+            if (System.Windows.Input.Keyboard.IsKeyUp(k))
+                return;
+
             KEYBDINPUT[] input = new KEYBDINPUT[1];
             input[0].type = INPUT_TYPE.KEYBOARD;
             input[0].scanCode = (ushort)ScanCodeFromKey(k);
