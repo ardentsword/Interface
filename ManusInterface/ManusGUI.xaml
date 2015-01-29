@@ -8,7 +8,6 @@
         <TabControl SelectionChanged="TabControl_SelectionChanged">
             <TabItem Header="User Profiles">
                 <Grid>
-                    <Button Content="Apply Changes" HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="118" Click="ApplyChanges" Margin="10,168,0,0"/>
                     <Button Content="Factory Reset" Margin="0,0,7,16.5" HorizontalAlignment="Right" Width="118" Height="24" VerticalAlignment="Bottom"/>
                     <Label Content="Thumb"  HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top"/>
                     <Label Content="Index" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,63,0,0"/>
@@ -37,15 +36,50 @@
             </TabItem>
             <TabItem Header="Simulation">
                 <Grid>
-                    <Slider x:Name="slider1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="235" ValueChanged="Slider_ValueChanged" Margin="10,107,0,0"/>
-                    <Slider x:Name="slider3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="235" ValueChanged="Slider_ValueChanged_2" Margin="10,80,0,0"/>
-                    <Slider x:Name="slider2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="235" ValueChanged="Slider_ValueChanged_1" Margin="10,51,0,0"/>
+                    <Slider x:Name="slider1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="235"  Margin="10,107,0,0"/>
+                    <Slider x:Name="slider3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="235"  Margin="10,80,0,0"/>
+                    <Slider x:Name="slider2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="235"  Margin="10,51,0,0"/>
                     <TextBox x:Name="slider1Value" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="280,102,0,0"/>
                     <TextBox x:Name="slider3Value" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="280,79,0,0"/>
                     <TextBox x:Name="slider2Value" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="280,51,0,0"/>
                     <Canvas HorizontalAlignment="Left" Height="104" VerticalAlignment="Top" Width="173" Background="#FFCFCFCF" Margin="334,143,0,0">
                         <Ellipse Fill="Red" Height="15" Canvas.Left="45" Canvas.Top="32" Width="15"/>
                     </Canvas>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Calibration">
+                <Grid>
+                    <Label Content="Mouse Sensitivity" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+                    <Label Content="Yaw" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="322,38,0,0" RenderTransformOrigin="0.5,0.5"/>
+                    <Label Content="Pitch" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="323,64,0,0"/>
+                    <Label Content="Roll" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="323,91,0,0"/>
+                    <Slider x:Name="mouseSensitivityYaw" HorizontalAlignment="Left" VerticalAlignment="Top" Width="235" ValueChanged="mouseSensitivityYaw_ValueChanged" Margin="10,41,0,0" Maximum="30" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="mouseSensitivityPitch" HorizontalAlignment="Left" VerticalAlignment="Top" Width="235" ValueChanged="mouseSensitivityPitch_ValueChanged" Margin="10,68,0,0" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="mouseSensitivityRoll" HorizontalAlignment="Left" VerticalAlignment="Top" Width="235" ValueChanged="mouseSensitivityRoll_ValueChanged" Margin="10,95,0,0" IsSnapToTickEnabled="True"/>
+                    <TextBox x:Name="mouseSensitivityYawTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="252,38,0,0"/>
+                    <TextBox x:Name="mouseSensitivityPitchTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="252,67,0,0"/>
+                    <TextBox x:Name="mouseSensitivityRollTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="252,94,0,0"/>
+
+                    <Slider x:Name="deadZoneLeftYaw" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneLeftYaw_ValueChanged" Margin="9,172,0,0" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="deadZoneLeftPitch" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneLeftPitch_ValueChanged" Margin="9,199,0,0" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="deadZoneLeftRoll" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneLeftRoll_ValueChanged" Margin="9,226,0,0" IsSnapToTickEnabled="True"/>
+                    <TextBox x:Name="deadZoneLeftYawTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="150,171,0,0"/>
+                    <TextBox x:Name="deadZoneLeftPitchTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="150,199,0,0"/>
+                    <TextBox x:Name="deadZoneLeftRollTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="150,227,0,0"/>
+                    <Label Content="Yaw" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="214,169,0,0" RenderTransformOrigin="0.5,0.5"/>
+                    <Label Content="Pitch" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,195,0,0"/>
+                    <Label Content="Roll" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,222,0,0"/>
+                    <Slider x:Name="deadZoneRightYaw" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneRightYaw_ValueChanged" Margin="261,172,0,0" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="deadZoneRightPitch" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneRightPitch_ValueChanged" Margin="261,199,0,0" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="deadZoneRightRoll" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" ValueChanged="deadZoneRightRoll_ValueChanged" Margin="261,226,0,0" IsSnapToTickEnabled="True"/>
+                    <TextBox x:Name="deadZoneRightYawTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="402,171,0,0"/>
+                    <TextBox x:Name="deadZoneRightPitchTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="402,199,0,0"/>
+                    <TextBox x:Name="deadZoneRightRollTb" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="57" Margin="402,227,0,0"/>
+                    <Label Content="Yaw" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="466,169,0,0" RenderTransformOrigin="0.5,0.5"/>
+                    <Label Content="Pitch" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="467,195,0,0"/>
+                    <Label Content="Roll" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="467,222,0,0"/>
+                    <Label Content="Deadzone Left Hand" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="9,141,0,0"/>
+                    <Label Content="Deadzone Right Hand" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="261,141,0,0"/>
                 </Grid>
             </TabItem>
         </TabControl>
