@@ -5,14 +5,21 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ManusMachina;
+using System.Windows.Input;
 
 namespace ManusInterface
 {
     class GloveInputSimulator
     {
+        private static GLOVE_EULER SENSITIVITY = new GLOVE_EULER(20, 10, 20);
+        private static GLOVE_EULER DEADZONE_LEFT = new GLOVE_EULER(20, 10, 20);
+        private static GLOVE_EULER DEADZONE_RIGHT = new GLOVE_EULER(20, 10, 20);
+
+        private const float FINGER_THRESHOLD = 0.3F;
+
         private Thread simulationThread;
         private uint gloveIndex;
-        double[] mouseRemainder;
+        private double[] mouseRemainder;
 
         public GloveInputSimulator(uint index)
         {
@@ -54,11 +61,15 @@ namespace ManusInterface
 
         void OutputRight(GLOVE_EULER center, GLOVE_EULER offset, GLOVE_EULER lastOffset)
         {
+            double mouseX = 0.0, mouseY = 0.0;
+
             // Move the mouse horizontally according to the distance traveled
-            double mouseX = -(lastOffset.x - offset.x) * 20.0;
+            if (Math.Abs(offset.x) > DEADZONE_RIGHT.x)
+                mouseX -= (lastOffset.x - offset.x) * SENSITIVITY.x;
 
             // Use a quadratic function to increase acceleration proportional to the roll
-            mouseX -= Math.Sign(offset.y) * Math.Pow(offset.y / 10, 2);
+            if (Math.Abs(offset.y) > DEADZONE_RIGHT.y)
+                mouseX -= Math.Sign(offset.y) * Math.Pow(offset.y * (100.0 / SENSITIVITY.y), 2);
 
             // Add the remainder from the previous truncation
             mouseX += mouseRemainder[0];
@@ -67,7 +78,8 @@ namespace ManusInterface
             // mouse_x = (int) (tan(yprOffset[1])*15); // old
 
             // Move the mouse vertically according to the distance traveled
-            double mouseY = (lastOffset.z - offset.z) * 20.0;
+            if (Math.Abs(offset.y) > DEADZONE_RIGHT.y)
+                mouseY += (lastOffset.z - offset.z) * SENSITIVITY.z;
 
             // Add the remainder from the previous truncation
             mouseY += mouseRemainder[1];
