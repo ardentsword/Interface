@@ -72,7 +72,7 @@ namespace ManusInterface
 
             // Use a quadratic function to increase acceleration proportional to the roll
             if (Math.Abs(offset.y) > DEADZONE_RIGHT.y)
-                mouseX -= Math.Sign(offset.y) * Math.Pow(offset.y * (100.0 / SENSITIVITY.y), 2);
+                mouseX -= Math.Sign(offset.y) * Math.Pow(offset.y / (100.0 / SENSITIVITY.y), 2);
 
             // Add the remainder from the previous truncation
             mouseX += mouseRemainder[0];
