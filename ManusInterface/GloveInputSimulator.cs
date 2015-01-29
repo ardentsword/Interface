@@ -12,8 +12,8 @@ namespace ManusInterface
     class GloveInputSimulator
     {
         private static GLOVE_EULER SENSITIVITY = new GLOVE_EULER(20, 10, 20);
-        private static GLOVE_EULER DEADZONE_LEFT = new GLOVE_EULER(20, 10, 20);
-        private static GLOVE_EULER DEADZONE_RIGHT = new GLOVE_EULER(20, 10, 20);
+        private static GLOVE_EULER DEADZONE_LEFT = new GLOVE_EULER(10, 10, 10);
+        private static GLOVE_EULER DEADZONE_RIGHT = new GLOVE_EULER(10, 10, 10);
 
         private const float FINGER_THRESHOLD = 0.3F;
 
@@ -81,7 +81,7 @@ namespace ManusInterface
             // mouse_x = (int) (tan(yprOffset[1])*15); // old
 
             // Move the mouse vertically according to the distance traveled
-            if (Math.Abs(offset.y) > DEADZONE_RIGHT.y)
+            if (Math.Abs(offset.z) > DEADZONE_RIGHT.z)
                 mouseY += (lastOffset.z - offset.z) * SENSITIVITY.z;
 
             // Add the remainder from the previous truncation
