@@ -23,11 +23,14 @@ namespace ManusInterface
 
         private bool running;
 
+        public Key[] fingerBindings;
+
         public GloveInputSimulator(uint index)
         {
             this.gloveIndex = index;
             mouseRemainder = new double[2];
             running = true;
+            fingerBindings = new Key[5];
 
             simulationThread = new Thread(new ThreadStart(Simulate));
             simulationThread.SetApartmentState(ApartmentState.STA);
@@ -69,7 +72,18 @@ namespace ManusInterface
                 if (state.data.RightHand)
                     OutputRight(offset, lastOffset);
                 else
-                    OutputLeft(offset, state.data.Fingers);
+                    OutputLeft(offset);
+
+                for (int i = 0; i < fingerBindings.Length; i++)
+                {
+                    if (fingerBindings[i] != Key.None)
+                    {
+                        if (state.data.Fingers[i] < FINGER_THRESHOLD)
+                            Keyboard.press(fingerBindings[i]);
+                        else
+                            Keyboard.release(fingerBindings[i]);
+                    }
+                }
 
                 lastOffset = offset;
             }
@@ -110,7 +124,7 @@ namespace ManusInterface
             Mouse.move(truncX, truncY);
         }
 
-        void OutputLeft(GLOVE_EULER offset, float[] fingers)
+        void OutputLeft(GLOVE_EULER offset)
         {
             if (offset.x < -DEADZONE_LEFT.x)
             {
