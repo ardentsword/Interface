@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ManusInterface
 {
-    enum INPUT_TYPE
+    enum INPUT_TYPE : uint
     {
         MOUSE = 0,
-        KEYBOARD
+        KEYBOARD = 1
     }
 }

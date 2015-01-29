@@ -36,12 +36,12 @@ namespace ManusInterface
         struct MOUSEINPUT
         {
             public INPUT_TYPE type;
-            public int dx;
-            public int dy;
-            public int mouseData;
-            public uint flags;
-            public uint time;
-            public uint extraInfo;
+            public Int32 dx;
+            public Int32 dy;
+            public UInt32 mouseData;
+            public UInt32 flags;
+            public UInt32 time;
+            public IntPtr extraInfo;
         }
 #pragma warning restore 0649
 
@@ -65,7 +65,7 @@ namespace ManusInterface
             }
             return 0;
         }
-        private static int ButtonToData(MouseButton b)
+        private static uint ButtonToData(MouseButton b)
         {
             switch (b)
             {
@@ -96,7 +96,7 @@ namespace ManusInterface
             input[0].dx = x;
             input[0].dy = y;
             input[0].flags = MOUSEEVENTF_MOVE | MOUSEEVENTF_WHEEL;
-            input[0].mouseData = wheel;
+            input[0].mouseData = (UInt32)wheel;
             SendInput(1, input, Marshal.SizeOf(typeof(MOUSEINPUT)));
         }
 

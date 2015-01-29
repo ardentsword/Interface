@@ -20,11 +20,13 @@ namespace ManusInterface
         struct KEYBDINPUT
         {
             public INPUT_TYPE type;
-            public ushort wVk;
-            public ushort wScan;
-            public uint dwFlags;
-            public uint time;
-            public uint dwExtraInfo;
+            public UInt16 vk;
+            public UInt16 scanCode;
+            public UInt32 flags;
+            public UInt32 time;
+            public IntPtr extrainfo;
+            public UInt32 padding1;
+            public UInt32 padding2;
         }
 #pragma warning restore 0649
 
@@ -47,8 +49,8 @@ namespace ManusInterface
         {
             KEYBDINPUT[] input = new KEYBDINPUT[1];
             input[0].type = INPUT_TYPE.KEYBOARD;
-            input[0].wScan = (ushort)ScanCodeFromKey(k);
-            input[0].dwFlags = KEYEVENTF_SCANCODE;
+            input[0].scanCode = (ushort)ScanCodeFromKey(k);
+            input[0].flags = KEYEVENTF_SCANCODE;
             SendInput(1, input, Marshal.SizeOf(typeof(KEYBDINPUT)));
         }
 
@@ -56,8 +58,8 @@ namespace ManusInterface
         {
             KEYBDINPUT[] input = new KEYBDINPUT[1];
             input[0].type = INPUT_TYPE.KEYBOARD;
-            input[0].wScan = (ushort)ScanCodeFromKey(k);
-            input[0].dwFlags = KEYEVENTF_KEYUP | KEYEVENTF_SCANCODE;
+            input[0].scanCode = (ushort)ScanCodeFromKey(k);
+            input[0].flags = KEYEVENTF_KEYUP | KEYEVENTF_SCANCODE;
             SendInput(1, input, Marshal.SizeOf(typeof(KEYBDINPUT)));
         }
 
@@ -65,11 +67,11 @@ namespace ManusInterface
         {
             KEYBDINPUT[] input = new KEYBDINPUT[2];
             input[0].type = INPUT_TYPE.KEYBOARD;
-            input[0].wScan = (ushort)ScanCodeFromKey(c);
-            input[0].dwFlags = KEYEVENTF_SCANCODE;
+            input[0].scanCode = (ushort)ScanCodeFromKey(c);
+            input[0].flags = KEYEVENTF_SCANCODE;
             input[1].type = INPUT_TYPE.KEYBOARD;
-            input[1].wScan = (ushort)ScanCodeFromKey(c);
-            input[1].dwFlags = KEYEVENTF_KEYUP | KEYEVENTF_SCANCODE;
+            input[1].scanCode = (ushort)ScanCodeFromKey(c);
+            input[1].flags = KEYEVENTF_KEYUP | KEYEVENTF_SCANCODE;
             SendInput(2, input, 2 * Marshal.SizeOf(typeof(KEYBDINPUT)));
         }
     }
