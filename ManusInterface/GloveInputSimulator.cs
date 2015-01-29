@@ -50,6 +50,9 @@ namespace ManusInterface
                 Manus.ManusQuaternionToEuler(out angles, ref state.data.Quaternion);
                 GLOVE_EULER offset = (angles - center).ToDegrees();
 
+                if (Math.Abs(lastOffset.x - offset.x) > Math.PI)
+                    lastOffset = offset;
+
                 if (state.data.RightHand)
                     OutputRight(center, offset, lastOffset);
                 else
