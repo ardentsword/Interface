@@ -79,7 +79,9 @@
     </Compile>
     <Compile Include="fingerIdSetting.cs" />
     <Compile Include="GloveInputSimulator.cs" />
-    <Compile Include="hexDictonary.cs" />
+    <Compile Include="TemporaryLookupTable.cs" />
+    <Compile Include="HandIdSetting.cs" />
+    <Compile Include="XmlHandler.cs" />
     <Compile Include="InputType.cs" />
     <Compile Include="KeyBindNotFoundException.cs" />
     <Compile Include="Keyboard.cs" />

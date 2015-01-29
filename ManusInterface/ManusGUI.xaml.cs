@@ -29,10 +29,16 @@ namespace ManusInterface
         private bool mouseListenActive;
         private GloveInputSimulator simulator;
 
+        Key[][] keyBindings = new Key[2][];
+
         public ManusGUI()
         {
             simulator = new GloveInputSimulator();
-            InitializeComponent();
+            InitializeComponent();    
+            Key[] keyBindingsLeftHand = new Key[5];
+            Key[] keyBindingsRightHand = new Key[5];
+            keyBindings[0] = keyBindingsLeftHand;
+            keyBindings[1] = keyBindingsRightHand;
         }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -49,24 +55,6 @@ namespace ManusInterface
         {
             slider3Value.Text = slider3.Value.ToString();
         }
-
-        private void ApplyChanges(object sender, RoutedEventArgs e)
-        {
-            List<String> keyBindings = new List<String>();
-
-            StringBuilder builder = new StringBuilder();
-            builder.Append("k");
-            keyBindings.Add("0");
-            keyBindings.Add(converKeyToHex(lThumb.Text));
-
-            keyBindings.Add(builder.ToString());      
-        }
-
-        private string converKeyToHex(string sendKey)
-        {
-            return "";
-        }
-
 
         void DataWindow_Closing(object sender, CancelEventArgs e)
         {
@@ -96,9 +84,21 @@ namespace ManusInterface
 
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
-            if (selectedKeybindBox !=null)
-            selectedKeybindBox.Text=e.Key.ToString();
-            mouseListenActive = false;
+            if (selectedKeybindBox != null)
+            {
+                selectedKeybindBox.Text = e.Key.ToString();
+                TextBox selectedInput= (TextBox)sender;
+                //TODO: once the
+                //int gloveIndex = FingerIdSetting.GetMyProperty(selectedInput);
+                //int fingerIndex = (int)selectedInput.GetValue(fingerIndexProperty);
+
+                int[] temp = TemporaryLookupTable.getHandAndFingerID(selectedInput.Name);
+                int gloveIndex = temp[0];
+                int fingerIndex = temp[1];
+
+                keyBindings[gloveIndex][fingerIndex] = e.Key;
+                mouseListenActive = false;
+            }
         }
 
         private void OnMouseDownHandler(object sender, MouseButtonEventArgs e)
