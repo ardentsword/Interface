@@ -12,10 +12,10 @@ namespace ManusInterface
     class GloveInputSimulator
     {
         private static GLOVE_EULER SENSITIVITY = new GLOVE_EULER(20, 10, 20);
-        private static GLOVE_EULER DEADZONE_LEFT = new GLOVE_EULER(10, 10, 10);
+        private static GLOVE_EULER DEADZONE_LEFT = new GLOVE_EULER(20, 20, 20);
         private static GLOVE_EULER DEADZONE_RIGHT = new GLOVE_EULER(10, 10, 10);
 
-        private const float FINGER_THRESHOLD = 0.3F;
+        private const float FINGER_THRESHOLD = 0.5F;
 
         private Thread simulationThread;
         private uint gloveIndex;
@@ -55,15 +55,15 @@ namespace ManusInterface
                     lastOffset = offset;
 
                 if (state.data.RightHand)
-                    OutputRight(center, offset, lastOffset);
+                    OutputRight(offset, lastOffset);
                 else
-                    OutputLeft();
+                    OutputLeft(offset, state.data.Fingers);
 
                 lastOffset = offset;
             }
         }
 
-        void OutputRight(GLOVE_EULER center, GLOVE_EULER offset, GLOVE_EULER lastOffset)
+        void OutputRight(GLOVE_EULER offset, GLOVE_EULER lastOffset)
         {
             double mouseX = 0.0, mouseY = 0.0;
 
@@ -98,8 +98,39 @@ namespace ManusInterface
             Mouse.move(truncX, truncY);
         }
 
-        void OutputLeft()
+        void OutputLeft(GLOVE_EULER offset, float[] fingers)
         {
+            if (offset.x < -DEADZONE_LEFT.x)
+            {
+                Keyboard.release(Key.A);
+                Keyboard.press(Key.D);
+            }
+            else if (offset.x > DEADZONE_LEFT.x)
+            {
+                Keyboard.press(Key.A);
+                Keyboard.release(Key.D);
+            }
+            else
+            {
+                Keyboard.release(Key.A);
+                Keyboard.release(Key.D);
+            }
+
+            if (offset.z > -DEADZONE_LEFT.z && offset.z < DEADZONE_LEFT.z)
+            {
+                Keyboard.release(Key.S);
+                Keyboard.press(Key.W);
+            }
+            else if (offset.z > DEADZONE_LEFT.z)
+            {
+                Keyboard.release(Key.W);
+                Keyboard.press(Key.S);
+            }
+            else
+            {
+                Keyboard.release(Key.W);
+                Keyboard.release(Key.S);
+            }
         }
     }
 }
