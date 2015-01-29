@@ -37,7 +37,7 @@ namespace ManusInterface
             }
             else if (textBox.Equals("rIndex"))
             {
-                return new int[] {  1, 2  };
+                return new int[] {  1, 1  };
             }
             else if (textBox.Equals("rMiddle"))
             {
