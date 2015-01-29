@@ -91,7 +91,9 @@ namespace ManusInterface
                 int gloveIndex = temp[0];
                 int fingerIndex = temp[1];
 
-                keyBindings[gloveIndex][fingerIndex] = e.Key;
+                foreach (GloveInputSimulator sim in simulators)
+                    sim.fingerBindings[gloveIndex][fingerIndex] = e.Key;
+
                 mouseListenActive = false;
             }
         }
