@@ -9,7 +9,7 @@ namespace ManusMachina
 {
 #pragma warning disable 0649 // Disable 'field never assigned' warning
     [StructLayout(LayoutKind.Sequential)]
-    struct GLOVE_QUATERNION
+    public struct GLOVE_QUATERNION
     {
         public float w, x, y, z;
 
@@ -40,7 +40,7 @@ namespace ManusMachina
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct GLOVE_EULER
+    public struct GLOVE_EULER
     {
         public float x, y, z;
 
@@ -75,7 +75,7 @@ namespace ManusMachina
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct GLOVE_DATA
+    public struct GLOVE_DATA
     {
         public bool RightHand;
         public GLOVE_QUATERNION Quaternion;
@@ -85,14 +85,14 @@ namespace ManusMachina
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct GLOVE_STATE
+    public struct GLOVE_STATE
     {
         public uint PacketNumber;
         public GLOVE_DATA data;
     }
 #pragma warning restore 0649
 
-    class Manus
+    public class Manus
     {
         public const int ERROR = -1;
         public const int SUCCESS = 0;
