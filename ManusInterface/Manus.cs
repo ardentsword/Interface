@@ -79,7 +79,6 @@ namespace ManusMachina
     {
         public bool RightHand;
         public GLOVE_QUATERNION Quaternion;
-        public GLOVE_EULER Angles;
 
         [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 5)]
         public float[] Fingers;
