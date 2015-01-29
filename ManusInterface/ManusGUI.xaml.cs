@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using System.IO;
 using System.Diagnostics;
 using System.ComponentModel;
+using ManusMachina;
 
 namespace ManusInterface
 {
@@ -30,6 +31,9 @@ namespace ManusInterface
         private GloveInputSimulator simulator;
 
         Key[][] keyBindings = new Key[2][];
+        public GLOVE_EULER mouseSensitivity = new GLOVE_EULER(20,10,20);
+        public GLOVE_EULER leftGloveDeadzones = new GLOVE_EULER(20, 20, 20);
+        public GLOVE_EULER rightGloveDeadzones = new GLOVE_EULER(10, 10, 10);
 
         public ManusGUI()
         {
@@ -39,21 +43,6 @@ namespace ManusInterface
             Key[] keyBindingsRightHand = new Key[5];
             keyBindings[0] = keyBindingsLeftHand;
             keyBindings[1] = keyBindingsRightHand;
-        }
-
-        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            slider1Value.Text = slider1.Value.ToString();
-        }
-
-        private void Slider_ValueChanged_1(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            slider2Value.Text = slider2.Value.ToString();
-        }
-
-        private void Slider_ValueChanged_2(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            slider3Value.Text = slider3.Value.ToString();
         }
 
         void DataWindow_Closing(object sender, CancelEventArgs e)
@@ -107,6 +96,31 @@ namespace ManusInterface
                 selectedKeybindBox.Text = e.ChangedButton.ToString();
 
             mouseListenActive = true;
+        }
+        
+        private void mouseSensitivity_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+           mouseSensitivityYawTb.Text= mouseSensitivityYaw.Value.ToString();
+           mouseSensitivityPitchTb.Text = mouseSensitivityPitch.Value.ToString();
+           mouseSensitivityRollTb.Text = mouseSensitivityRoll.Value.ToString();
+           mouseSensitivity = new GLOVE_EULER((float)mouseSensitivityYaw.Value, (float)mouseSensitivityPitch.Value, (float)mouseSensitivityRoll.Value);
+        }
+
+
+        private void deadZoneLeft_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            deadZoneLeftYawTb.Text = deadZoneLeftYaw.Value.ToString();
+            deadZoneLeftPitchTb.Text = deadZoneLeftPitch.Value.ToString();
+            deadZoneLeftRollTb.Text = deadZoneLeftRoll.Value.ToString();
+            leftGloveDeadzones = new GLOVE_EULER((float)deadZoneLeftYaw.Value, (float)deadZoneLeftPitch.Value, (float)deadZoneLeftRoll.Value);
+        }
+
+        private void deadZoneRight_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            deadZoneRightYawTb.Text = deadZoneRightYaw.Value.ToString();
+            deadZoneRightPitchTb.Text = deadZoneRightPitch.Value.ToString();
+            deadZoneRightRollTb.Text = deadZoneRightRoll.Value.ToString();
+            rightGloveDeadzones = new GLOVE_EULER((float)deadZoneRightYaw.Value, (float)deadZoneRightPitch.Value, (float)deadZoneRightRoll.Value);
         }
     }
 }
