@@ -21,13 +21,14 @@ namespace ManusInterface
         void Simulate()
         {
             GLOVE_STATE state;
-            GLOVE_EULER center;
-            double[] mouseError = new double[2];
+            GLOVE_EULER center, lastOffset;
+            double[] remainder = new double[2];
 
             Manus.ManusInit();
 
             while (Manus.ManusGetState(0, out state, true) != Manus.SUCCESS);
             Manus.ManusQuaternionToEuler(out center, ref state.data.Quaternion);
+            lastOffset = center;
 
             while (true)
             {
@@ -38,21 +39,34 @@ namespace ManusInterface
                 Manus.ManusQuaternionToEuler(out angles, ref state.data.Quaternion);
                 GLOVE_EULER offset = (angles - center).ToDegrees();
 
-                double mouseXfloat = -Math.Sign(offset.y) * Math.Pow(offset.y / 10, 2) + mouseError[0];
-                int mouseXint = (int)mouseXfloat;
-                mouseError[0] = mouseXfloat - mouseXint;
+                // Move the mouse horizontally according to the distance traveled
+                double mouseX = -(lastOffset.x - offset.x) * 20.0;
+
+                // Use a quadratic function to increase acceleration proportional to the roll
+                mouseX -= Math.Sign(offset.y) * Math.Pow(offset.y / 10, 2);
+
+                // Add the remainder from the previous truncation
+                mouseX += remainder[0];
+
                 // todo nan detection for tan > 90 degrees
                 // mouse_x = (int) (tan(yprOffset[1])*15); // old
 
-                double mouseYfloat = Math.Sign(offset.z) * Math.Pow(offset.z / 10, 2) + mouseError[1];
-                int mouseYint = (int)mouseYfloat;
-                mouseError[1] = mouseYfloat - mouseYint;
-                //mouse_y = -(int) (tan(yprOffset[2])*15); // old
+                // Move the mouse vertically according to the distance traveled
+                double mouseY = (lastOffset.z - offset.z) * 20.0;
 
-                if (mouseXint != 0 || mouseYint != 0)
-                {
-                    Mouse.move(mouseXint, (1 - 2) * mouseYint);
-                }
+                // Add the remainder from the previous truncation
+                mouseY += remainder[1];
+
+                // Truncate the mouse and save the remainder
+                int truncX = (int)Math.Truncate(mouseX);
+                int truncY = (int)Math.Truncate(mouseY);
+                remainder[0] = mouseX - truncX;
+                remainder[1] = mouseY - truncY;
+
+                // Move the mouse
+                Mouse.move(truncX, truncY);
+
+                lastOffset = offset;
             }
 
             Manus.ManusExit();
