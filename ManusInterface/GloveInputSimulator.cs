@@ -71,6 +71,15 @@ namespace ManusInterface
 
                 GLOVE_EULER angles;
                 Manus.ManusQuaternionToEuler(out angles, ref state.data.Quaternion);
+
+                int fingersClamped = 0;
+                for (int i = 0; i < state.data.Fingers.Length; i++)
+                    if (state.data.Fingers[i] < FINGER_THRESHOLD)
+                        fingersClamped++;
+
+                if (fingersClamped >= state.data.Fingers.Length)
+                    center = angles;
+
                 GLOVE_EULER offset = (angles - center).ToDegrees();
 
                 if (Math.Abs(lastOffset.x - offset.x) > Math.PI)
