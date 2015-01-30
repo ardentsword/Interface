@@ -129,26 +129,26 @@ namespace ManusInterface
 
         void OutputLeft(GLOVE_EULER offset)
         {
-            if (offset.x < -DEADZONE_LEFT.x)
-            {
-                Keyboard.release(Key.A);
-                Keyboard.press(Key.D);
-            }
-            else if (offset.x > DEADZONE_LEFT.x)
-            {
-                Keyboard.press(Key.A);
-                Keyboard.release(Key.D);
-            }
-            else
-            {
-                Keyboard.release(Key.A);
-                Keyboard.release(Key.D);
-            }
-
-            if (offset.z > -DEADZONE_LEFT.z && offset.z < DEADZONE_LEFT.z)
+            if (Math.Abs(offset.z) < DEADZONE_LEFT.z)
             {
                 Keyboard.release(Key.S);
                 Keyboard.press(Key.W);
+
+                if (offset.x < -DEADZONE_LEFT.x)
+                {
+                    Keyboard.release(Key.A);
+                    Keyboard.press(Key.D);
+                }
+                else if (offset.x > DEADZONE_LEFT.x)
+                {
+                    Keyboard.press(Key.A);
+                    Keyboard.release(Key.D);
+                }
+                else
+                {
+                    Keyboard.release(Key.A);
+                    Keyboard.release(Key.D);
+                }
             }
             else if (offset.z > DEADZONE_LEFT.z)
             {
@@ -159,6 +159,8 @@ namespace ManusInterface
             {
                 Keyboard.release(Key.W);
                 Keyboard.release(Key.S);
+                Keyboard.release(Key.A);
+                Keyboard.release(Key.D);
             }
         }
     }
