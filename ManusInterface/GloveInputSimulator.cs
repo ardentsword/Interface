@@ -13,7 +13,7 @@ namespace ManusInterface
     {
         private static GLOVE_EULER SENSITIVITY = new GLOVE_EULER(20, 10, 20);
         private static GLOVE_EULER DEADZONE_LEFT = new GLOVE_EULER(20, 20, 20);
-        private static GLOVE_EULER DEADZONE_RIGHT = new GLOVE_EULER(10, 10, 10);
+        private static GLOVE_EULER DEADZONE_RIGHT = new GLOVE_EULER(20, 20, 20);
 
         private const float FINGER_THRESHOLD = 0.5F;
 
@@ -109,12 +109,14 @@ namespace ManusInterface
             double mouseX = 0.0, mouseY = 0.0;
 
             // Move the mouse horizontally according to the distance traveled
-            if (Math.Abs(offset.x) > DEADZONE_RIGHT.x)
+            if (Math.Abs(offset.z) < DEADZONE_RIGHT.z)
+            {
                 mouseX -= (lastOffset.x - offset.x) * SENSITIVITY.x;
 
-            // Use a quadratic function to increase acceleration proportional to the roll
-            if (Math.Abs(offset.y) > DEADZONE_RIGHT.y)
-                mouseX -= Math.Sign(offset.y) * Math.Pow(offset.y / (100.0 / SENSITIVITY.y), 2);
+                // Use a quadratic function to increase acceleration proportional to the roll
+                if (Math.Abs(offset.y) > DEADZONE_RIGHT.y)
+                    mouseX -= Math.Sign(offset.y) * Math.Pow(offset.y / (100.0 / SENSITIVITY.y), 2);
+            }
 
             // Add the remainder from the previous truncation
             mouseX += mouseRemainder[0];
