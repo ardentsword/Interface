@@ -92,7 +92,7 @@ namespace ManusInterface
                 int fingerIndex = temp[1];
 
                 foreach (GloveInputSimulator sim in simulators)
-                    sim.fingerBindings[gloveIndex][fingerIndex] = e.Key;
+                    sim.fingerKeyBindings[gloveIndex][fingerIndex] = e.Key;
 
                 mouseListenActive = false;
             }
@@ -101,7 +101,23 @@ namespace ManusInterface
         private void OnMouseDownHandler(object sender, MouseButtonEventArgs e)
         {
             if (selectedKeybindBox != null && mouseListenActive)
+            {
                 selectedKeybindBox.Text = e.ChangedButton.ToString();
+                TextBox selectedInput = (TextBox)sender;
+                //TODO: once the
+                //int gloveIndex = FingerIdSetting.GetMyProperty(selectedInput);
+                //int fingerIndex = (int)selectedInput.GetValue(fingerIndexProperty);
+
+                int[] temp = TemporaryLookupTable.getHandAndFingerID(selectedInput.Name);
+                int gloveIndex = temp[0];
+                int fingerIndex = temp[1];
+
+                foreach (GloveInputSimulator sim in simulators)
+                {
+                    sim.fingerKeyBindings[gloveIndex][fingerIndex] = Key.System;
+                    sim.fingerMouseBindings[gloveIndex][fingerIndex] = e.ChangedButton;
+                }
+            }
 
             mouseListenActive = true;
         }

@@ -23,16 +23,21 @@ namespace ManusInterface
 
         private bool running;
 
-        public Key[][] fingerBindings;
+        public Key[][] fingerKeyBindings;
+        public MouseButton[][] fingerMouseBindings;
 
         public GloveInputSimulator(uint index)
         {
             this.gloveIndex = index;
             mouseRemainder = new double[2];
             running = true;
-            fingerBindings = new Key[2][];
-            fingerBindings[0] = new Key[5];
-            fingerBindings[1] = new Key[5];
+            fingerKeyBindings = new Key[2][];
+            fingerKeyBindings[0] = new Key[5];
+            fingerKeyBindings[1] = new Key[5];
+
+            fingerMouseBindings = new MouseButton[2][];
+            fingerMouseBindings[0] = new MouseButton[5];
+            fingerMouseBindings[1] = new MouseButton[5];
 
             simulationThread = new Thread(new ThreadStart(Simulate));
             simulationThread.SetApartmentState(ApartmentState.STA);
@@ -79,12 +84,19 @@ namespace ManusInterface
                 int hand = state.data.RightHand ? 1 : 0;
                 for (int i = 0; i < 5; i++)
                 {
-                    if (fingerBindings[hand][i] != Key.None)
+                    if (fingerKeyBindings[hand][i] != Key.System)
                     {
                         if (state.data.Fingers[i] < FINGER_THRESHOLD)
-                            Keyboard.press(fingerBindings[hand][i]);
+                            Mouse.press(fingerMouseBindings[hand][i]);
                         else
-                            Keyboard.release(fingerBindings[hand][i]);
+                            Mouse.release(fingerMouseBindings[hand][i]);
+                    }
+                    else if (fingerKeyBindings[hand][i] != Key.None)
+                    {
+                        if (state.data.Fingers[i] < FINGER_THRESHOLD)
+                            Keyboard.press(fingerKeyBindings[hand][i]);
+                        else
+                            Keyboard.release(fingerKeyBindings[hand][i]);
                     }
                 }
 
