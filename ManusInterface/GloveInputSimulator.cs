@@ -93,7 +93,7 @@ namespace ManusInterface
                 int hand = state.data.RightHand ? 1 : 0;
                 for (int i = 0; i < 5; i++)
                 {
-                    if (fingerKeyBindings[hand][i] != Key.System)
+                    if (fingerKeyBindings[hand][i] == Key.System)
                     {
                         if (state.data.Fingers[i] < FINGER_THRESHOLD)
                             Mouse.press(fingerMouseBindings[hand][i]);
