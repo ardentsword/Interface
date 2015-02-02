@@ -118,14 +118,11 @@ namespace ManusInterface
             double mouseX = 0.0, mouseY = 0.0;
 
             // Move the mouse horizontally according to the distance traveled
-            if (Math.Abs(offset.z) < DEADZONE_RIGHT.z)
-            {
-                mouseX -= (lastOffset.x - offset.x) * SENSITIVITY.x;
+            mouseX -= (lastOffset.x - offset.x) * SENSITIVITY.x;
 
-                // Use a quadratic function to increase acceleration proportional to the roll
-                if (Math.Abs(offset.y) > DEADZONE_RIGHT.y)
-                    mouseX -= Math.Sign(offset.y) * Math.Pow(offset.y / (100.0 / SENSITIVITY.y), 2);
-            }
+            // Use a quadratic function to increase acceleration proportional to the roll
+            if (Math.Abs(offset.y) > DEADZONE_RIGHT.y)
+                mouseX -= Math.Sign(offset.y) * Math.Pow(offset.y / (100.0 / SENSITIVITY.y), 2);
 
             // Add the remainder from the previous truncation
             mouseX += mouseRemainder[0];
@@ -134,8 +131,7 @@ namespace ManusInterface
             // mouse_x = (int) (tan(yprOffset[1])*15); // old
 
             // Move the mouse vertically according to the distance traveled
-            if (Math.Abs(offset.z) > DEADZONE_RIGHT.z)
-                mouseY += (lastOffset.z - offset.z) * SENSITIVITY.z;
+            mouseY += (lastOffset.z - offset.z) * SENSITIVITY.z;
 
             // Add the remainder from the previous truncation
             mouseY += mouseRemainder[1];
