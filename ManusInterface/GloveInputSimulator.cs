@@ -88,7 +88,7 @@ namespace ManusInterface
                 if (state.data.RightHand)
                     OutputRight(offset, lastOffset);
                 else
-                    OutputLeft(offset);
+                    OutputLeft(offset, fingersClamped);
 
                 int hand = state.data.RightHand ? 1 : 0;
                 for (int i = 0; i < 5; i++)
@@ -150,33 +150,28 @@ namespace ManusInterface
             Mouse.move(truncX, truncY);
         }
 
-        void OutputLeft(GLOVE_EULER offset)
+        void OutputLeft(GLOVE_EULER offset, int fingersClamped)
         {
-            if (Math.Abs(offset.z) < DEADZONE_LEFT.z)
+            if (fingersClamped >= 3)
             {
-                Keyboard.release(Key.S);
                 Keyboard.press(Key.W);
+                Keyboard.release(Key.S);
 
                 if (offset.x < -DEADZONE_LEFT.x)
                 {
-                    Keyboard.release(Key.A);
-                    Keyboard.press(Key.D);
+                    Keyboard.release(Key.D);
+                    Keyboard.press(Key.A);
                 }
                 else if (offset.x > DEADZONE_LEFT.x)
                 {
-                    Keyboard.press(Key.A);
-                    Keyboard.release(Key.D);
+                    Keyboard.press(Key.D);
+                    Keyboard.release(Key.A);
                 }
                 else
                 {
                     Keyboard.release(Key.A);
                     Keyboard.release(Key.D);
                 }
-            }
-            else if (offset.z > DEADZONE_LEFT.z)
-            {
-                Keyboard.release(Key.W);
-                Keyboard.press(Key.S);
             }
             else
             {
