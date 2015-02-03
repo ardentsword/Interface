@@ -31,9 +31,9 @@ namespace ManusInterface
         private GloveInputSimulator[] simulators;
 
         Key[][] keyBindings = new Key[2][];
-        public GLOVE_EULER mouseSensitivity = new GLOVE_EULER(20,10,20);
-        public GLOVE_EULER leftGloveDeadzones = new GLOVE_EULER(20, 20, 20);
-        public GLOVE_EULER rightGloveDeadzones = new GLOVE_EULER(10, 10, 10);
+        public GLOVE_VECTOR mouseSensitivity = new GLOVE_VECTOR(20,10,20);
+        public GLOVE_VECTOR leftGloveDeadzones = new GLOVE_VECTOR(20, 20, 20);
+        public GLOVE_VECTOR rightGloveDeadzones = new GLOVE_VECTOR(10, 10, 10);
 
         public ManusGUI()
         {
@@ -127,7 +127,7 @@ namespace ManusInterface
            mouseSensitivityYawTb.Text= mouseSensitivityYaw.Value.ToString();
            mouseSensitivityPitchTb.Text = mouseSensitivityPitch.Value.ToString();
            mouseSensitivityRollTb.Text = mouseSensitivityRoll.Value.ToString();
-           mouseSensitivity = new GLOVE_EULER((float)mouseSensitivityYaw.Value, (float)mouseSensitivityPitch.Value, (float)mouseSensitivityRoll.Value);
+           mouseSensitivity = new GLOVE_VECTOR((float)mouseSensitivityYaw.Value, (float)mouseSensitivityPitch.Value, (float)mouseSensitivityRoll.Value);
         }
 
 
@@ -136,7 +136,7 @@ namespace ManusInterface
             deadZoneLeftYawTb.Text = deadZoneLeftYaw.Value.ToString();
             deadZoneLeftPitchTb.Text = deadZoneLeftPitch.Value.ToString();
             deadZoneLeftRollTb.Text = deadZoneLeftRoll.Value.ToString();
-            leftGloveDeadzones = new GLOVE_EULER((float)deadZoneLeftYaw.Value, (float)deadZoneLeftPitch.Value, (float)deadZoneLeftRoll.Value);
+            leftGloveDeadzones = new GLOVE_VECTOR((float)deadZoneLeftYaw.Value, (float)deadZoneLeftPitch.Value, (float)deadZoneLeftRoll.Value);
         }
 
         private void deadZoneRight_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -144,7 +144,7 @@ namespace ManusInterface
             deadZoneRightYawTb.Text = deadZoneRightYaw.Value.ToString();
             deadZoneRightPitchTb.Text = deadZoneRightPitch.Value.ToString();
             deadZoneRightRollTb.Text = deadZoneRightRoll.Value.ToString();
-            rightGloveDeadzones = new GLOVE_EULER((float)deadZoneRightYaw.Value, (float)deadZoneRightPitch.Value, (float)deadZoneRightRoll.Value);
+            rightGloveDeadzones = new GLOVE_VECTOR((float)deadZoneRightYaw.Value, (float)deadZoneRightPitch.Value, (float)deadZoneRightRoll.Value);
         }
     }
 }

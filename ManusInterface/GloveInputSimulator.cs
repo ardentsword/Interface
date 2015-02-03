@@ -11,9 +11,9 @@ namespace ManusInterface
 {
     class GloveInputSimulator
     {
-        private static GLOVE_EULER SENSITIVITY = new GLOVE_EULER(20, 10, 20);
-        private static GLOVE_EULER DEADZONE_LEFT = new GLOVE_EULER(20, 20, 20);
-        private static GLOVE_EULER DEADZONE_RIGHT = new GLOVE_EULER(20, 20, 20);
+        private static GLOVE_VECTOR SENSITIVITY = new GLOVE_VECTOR(20, 10, 20);
+        private static GLOVE_VECTOR DEADZONE_LEFT = new GLOVE_VECTOR(20, 20, 20);
+        private static GLOVE_VECTOR DEADZONE_RIGHT = new GLOVE_VECTOR(20, 20, 20);
 
         private const float FINGER_THRESHOLD = 0.5F;
 
@@ -52,7 +52,7 @@ namespace ManusInterface
         void Simulate()
         {
             GLOVE_STATE state;
-            GLOVE_EULER center, lastOffset;
+            GLOVE_VECTOR center, gravity, lastOffset;
 
             while (Manus.ManusGetState(gloveIndex, out state, true) != Manus.SUCCESS)
             {
@@ -61,7 +61,8 @@ namespace ManusInterface
                 Thread.Sleep(100);
             }
 
-            Manus.ManusQuaternionToEuler(out center, ref state.data.Quaternion);
+            Manus.ManusGetGravity(out gravity, ref state.data.Quaternion);
+            Manus.ManusGetEuler(out center, ref state.data.Quaternion, ref gravity);
             lastOffset = center;
 
             while (running)
@@ -69,18 +70,18 @@ namespace ManusInterface
                 if (Manus.ManusGetState(gloveIndex, out state, true) != Manus.SUCCESS)
                     continue;
 
-                GLOVE_EULER angles;
-                Manus.ManusQuaternionToEuler(out angles, ref state.data.Quaternion);
+                GLOVE_VECTOR angles;
+                Manus.ManusGetEuler(out angles, ref state.data.Quaternion, ref gravity);
 
                 int fingersClamped = 0;
                 for (int i = 0; i < state.data.Fingers.Length; i++)
-                    if (state.data.Fingers[i] < FINGER_THRESHOLD)
+                    if (state.data.Fingers[i] < FINGER_THRESHOLD && state.data.Fingers[i] > 0.0)
                         fingersClamped++;
 
                 if (fingersClamped >= state.data.Fingers.Length)
                     center = angles;
 
-                GLOVE_EULER offset = (angles - center).ToDegrees();
+                GLOVE_VECTOR offset = (angles - center).ToDegrees();
 
                 if (Math.Abs(lastOffset.x - offset.x) > Math.PI)
                     lastOffset = offset;
@@ -113,7 +114,7 @@ namespace ManusInterface
             }
         }
 
-        void OutputRight(GLOVE_EULER offset, GLOVE_EULER lastOffset)
+        void OutputRight(GLOVE_VECTOR offset, GLOVE_VECTOR lastOffset)
         {
             double mouseX = 0.0, mouseY = 0.0;
 
@@ -146,7 +147,7 @@ namespace ManusInterface
             Mouse.move(truncX, truncY);
         }
 
-        void OutputLeft(GLOVE_EULER offset, int fingersClamped)
+        void OutputLeft(GLOVE_VECTOR offset, int fingersClamped)
         {
             if (fingersClamped >= 3)
             {

@@ -40,37 +40,37 @@ namespace ManusMachina
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct GLOVE_EULER
+    public struct GLOVE_VECTOR
     {
         public float x, y, z;
 
-        public GLOVE_EULER(float x, float y, float z)
+        public GLOVE_VECTOR(float x, float y, float z)
         {
             this.x = x;
             this.y = y;
             this.z = z;
         }
 
-        public GLOVE_EULER ToDegrees()
+        public GLOVE_VECTOR ToDegrees()
         {
-            return new GLOVE_EULER((float)(x * 180.0 / Math.PI), (float)(y * 180.0 / Math.PI), (float)(z * 180.0 / Math.PI));
+            return new GLOVE_VECTOR((float)(x * 180.0 / Math.PI), (float)(y * 180.0 / Math.PI), (float)(z * 180.0 / Math.PI));
         }
 
-        public static GLOVE_EULER operator +(GLOVE_EULER a, GLOVE_EULER b)
+        public static GLOVE_VECTOR operator +(GLOVE_VECTOR a, GLOVE_VECTOR b)
         {
-            return new GLOVE_EULER(a.x + b.x, a.y + b.y, a.z + b.z);
+            return new GLOVE_VECTOR(a.x + b.x, a.y + b.y, a.z + b.z);
         }
-        public static GLOVE_EULER operator -(GLOVE_EULER a, GLOVE_EULER b)
+        public static GLOVE_VECTOR operator -(GLOVE_VECTOR a, GLOVE_VECTOR b)
         {
-            return new GLOVE_EULER(a.x - b.x, a.y - b.y, a.z - b.z);
+            return new GLOVE_VECTOR(a.x - b.x, a.y - b.y, a.z - b.z);
         }
-        public static GLOVE_EULER operator *(GLOVE_EULER a, GLOVE_EULER b)
+        public static GLOVE_VECTOR operator *(GLOVE_VECTOR a, GLOVE_VECTOR b)
         {
-            return new GLOVE_EULER(a.x * b.x, a.y * b.y, a.z * b.z);
+            return new GLOVE_VECTOR(a.x * b.x, a.y * b.y, a.z * b.z);
         }
-        public static GLOVE_EULER operator /(GLOVE_EULER a, GLOVE_EULER b)
+        public static GLOVE_VECTOR operator /(GLOVE_VECTOR a, GLOVE_VECTOR b)
         {
-            return new GLOVE_EULER(a.x / b.x, a.y / b.y, a.z / b.z);
+            return new GLOVE_VECTOR(a.x / b.x, a.y / b.y, a.z / b.z);
         }
     }
 
@@ -78,6 +78,7 @@ namespace ManusMachina
     public struct GLOVE_DATA
     {
         public bool RightHand;
+        public GLOVE_VECTOR Acceleration;
         public GLOVE_QUATERNION Quaternion;
 
         [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 5)]
@@ -99,6 +100,7 @@ namespace ManusMachina
         public const int INVALID_ARGUMENT = 1;
         public const int OUT_OF_RANGE = 2;
         public const int DISCONNECTED = 3;
+
 
         /*! \brief Initialize the Manus SDK.
         *
@@ -135,13 +137,35 @@ namespace ManusMachina
 
         /*! \brief Convert a Quaternion to Euler angles.
         *
-        *  Returns the Quaternion as Yaw, Pitch and Roll angles.
+        *  Returns the Quaternion as Yaw, Pitch and Roll angles
+        *  relative to the Earth's gravity.
         *
         *  \param euler Output variable to receive the Euler angles.
         *  \param quaternion The quaternion to convert.
         */
         [DllImport("Manus.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int ManusQuaternionToEuler(out GLOVE_EULER euler, ref GLOVE_QUATERNION quaternion);
+        public static extern int ManusGetEuler(out GLOVE_VECTOR euler, ref GLOVE_QUATERNION quaternion, ref GLOVE_VECTOR gravity);
+
+        /*! \brief Remove gravity from acceleration vector.
+        *
+        *  Returns the Acceleration as a vector independent from
+        *  the Earth's gravity.
+        *
+        *  \param linear Output vector to receive the linear acceleration.
+        *  \param acceleation The acceleration vector to convert.
+        */
+        [DllImport("Manus.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ManusGetLinearAcceleration(out GLOVE_VECTOR linear, ref GLOVE_VECTOR acceleration, ref GLOVE_VECTOR gravity);
+
+        /*! \brief Return gravity vector from the Quaternion.
+        *
+        *  Returns an estimation of the Earth's gravity vector.
+        *
+        *  \param gravity Output vector to receive the gravity vector.
+        *  \param quaternion The quaternion to base the gravity vector on.
+        */
+        [DllImport("Manus.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int ManusGetGravity(out GLOVE_VECTOR gravity, ref GLOVE_QUATERNION quaternion);
 
         /*! \brief Enable gamepad emulation.
         *
