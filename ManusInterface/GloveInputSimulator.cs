@@ -11,7 +11,7 @@ namespace ManusInterface
 {
     class GloveInputSimulator
     {
-        private static GLOVE_VECTOR SENSITIVITY = new GLOVE_VECTOR(20, 10, 20);
+        private static GLOVE_VECTOR SENSITIVITY = new GLOVE_VECTOR(10, 20, 20);
         private static GLOVE_VECTOR DEADZONE_LEFT = new GLOVE_VECTOR(20, 20, 20);
         private static GLOVE_VECTOR DEADZONE_RIGHT = new GLOVE_VECTOR(20, 20, 20);
 
@@ -75,7 +75,7 @@ namespace ManusInterface
 
                 int fingersClamped = 0;
                 for (int i = 0; i < state.data.Fingers.Length; i++)
-                    if (state.data.Fingers[i] < FINGER_THRESHOLD && state.data.Fingers[i] > 0.0)
+                    if (state.data.Fingers[i] > FINGER_THRESHOLD && state.data.Fingers[i] > 0.0)
                         fingersClamped++;
 
                 if (fingersClamped >= state.data.Fingers.Length)
@@ -96,14 +96,14 @@ namespace ManusInterface
                 {
                     if (fingerKeyBindings[hand][i] == Key.System)
                     {
-                        if (state.data.Fingers[i] < FINGER_THRESHOLD)
+                        if (state.data.Fingers[i] > FINGER_THRESHOLD)
                             Mouse.press(fingerMouseBindings[hand][i]);
                         else
                             Mouse.release(fingerMouseBindings[hand][i]);
                     }
                     else if (fingerKeyBindings[hand][i] != Key.None)
                     {
-                        if (state.data.Fingers[i] < FINGER_THRESHOLD)
+                        if (state.data.Fingers[i] > FINGER_THRESHOLD)
                             Keyboard.press(fingerKeyBindings[hand][i]);
                         else
                             Keyboard.release(fingerKeyBindings[hand][i]);
@@ -119,11 +119,11 @@ namespace ManusInterface
             double mouseX = 0.0, mouseY = 0.0;
 
             // Move the mouse horizontally according to the distance traveled
-            mouseX -= (lastOffset.x - offset.x) * SENSITIVITY.x;
+            mouseX -= (lastOffset.z - offset.z) * SENSITIVITY.z;
 
             // Use a quadratic function to increase acceleration proportional to the roll
-            if (Math.Abs(offset.y) > DEADZONE_RIGHT.y)
-                mouseX -= Math.Sign(offset.y) * Math.Pow(offset.y / (100.0 / SENSITIVITY.y), 2);
+            if (Math.Abs(offset.x) > DEADZONE_RIGHT.x)
+                mouseX -= Math.Sign(offset.x) * Math.Pow(offset.x / (100.0 / SENSITIVITY.x), 2);
 
             // Add the remainder from the previous truncation
             mouseX += mouseRemainder[0];
@@ -132,7 +132,7 @@ namespace ManusInterface
             // mouse_x = (int) (tan(yprOffset[1])*15); // old
 
             // Move the mouse vertically according to the distance traveled
-            mouseY += (lastOffset.z - offset.z) * SENSITIVITY.z;
+            mouseY += (lastOffset.y - offset.y) * SENSITIVITY.y;
 
             // Add the remainder from the previous truncation
             mouseY += mouseRemainder[1];
@@ -154,12 +154,12 @@ namespace ManusInterface
                 Keyboard.press(Key.W);
                 Keyboard.release(Key.S);
 
-                if (offset.x < -DEADZONE_LEFT.x)
+                if (offset.z < -DEADZONE_LEFT.z)
                 {
                     Keyboard.release(Key.D);
                     Keyboard.press(Key.A);
                 }
-                else if (offset.x > DEADZONE_LEFT.x)
+                else if (offset.z > DEADZONE_LEFT.z)
                 {
                     Keyboard.press(Key.D);
                     Keyboard.release(Key.A);
