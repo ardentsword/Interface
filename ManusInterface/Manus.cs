@@ -185,29 +185,5 @@ namespace ManusMachina
         */
         [DllImport("Manus.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ManusGetGravity(out GLOVE_VECTOR gravity, ref GLOVE_QUATERNION quaternion);
-
-        /*! \brief Enable gamepad emulation.
-        *
-        *  Allows the SDK to convert glove data to gamepad
-        *  input.
-        */
-        [DllImport("Manus.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int ManusEnableGamepad(bool enabled);
-
-        /*! \brief Enable mouse emulation.
-        *
-        *  Allows the SDK to convert glove data to mouse
-        *  input.
-        */
-        [DllImport("Manus.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int ManusEnableKeyboard(bool enabled);
-
-        /*! \brief Enable keyboard emulation.
-        *
-        *  Allows the SDK to convert glove data to keyboard
-        *  input.
-        */
-        [DllImport("Manus.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int ManusEnableMouse(bool enabled);
     }
 }
