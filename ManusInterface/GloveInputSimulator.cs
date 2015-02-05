@@ -90,6 +90,7 @@ namespace ManusInterface
                     continue;
 
                 GLOVE_VECTOR angles;
+                Manus.ManusGetGravity(out gravity, ref state.data.Quaternion);
                 Manus.ManusGetEuler(out angles, ref state.data.Quaternion, ref gravity);
 
                 int fingersClamped = 0;
@@ -142,7 +143,7 @@ namespace ManusInterface
 
             // Use a quadratic function to increase acceleration proportional to the roll
             if (Math.Abs(offset.x) > DEADZONE_RIGHT.x)
-                mouseX -= Math.Sign(offset.x) * Math.Pow(offset.x / (100.0 / SENSITIVITY.x), 2);
+                mouseX += Math.Sign(offset.x) * Math.Pow(offset.x / (100.0 / SENSITIVITY.x), 2);
 
             // Add the remainder from the previous truncation
             mouseX += mouseRemainder[0];
