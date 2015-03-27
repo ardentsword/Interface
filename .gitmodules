@@ -1,0 +1,3 @@
+[submodule "ManusMachina"]
+	path = ManusMachina
+	url = https://github.com/ManusMachina/ManusMachina.git
